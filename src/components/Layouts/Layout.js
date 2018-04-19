@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import { Route, Link  } from 'react-router-dom'
 import Aux from '../../hoc/Auxolary';
 import classes from './Layout.css';
 import Toolbar from '../Navigation/Toolbar/Toolbar';
@@ -28,10 +28,38 @@ class Layout extends Component {
                 <div className={classes.BackDrop}>
                     <BackDrop show={this.state.show} clicked={this.toggleBackDrop} />
                 </div>
-                <main className={classes.content}>
-                    {this.props.children}
-                </main>
+                
+                <Route exact path='/burger-builder' render={()=> {
+                    return(
+                        <main className={classes.content}>
+                         {this.props.children}
+                        </main>
+                    )
+                }}/>
+
+                <Route exact path='/' render={()=> {
+                    return(
+                        <Aux>
+                            <div style={{textAlign:"center", marginTop:'100px'}}>
+                            <p>Welcome to Burger Application</p>
+                            <Link to='/burger-builder'>Click here to continue</Link> 
+                            </div>
+                        </Aux>  
+                    )
+                }}/>
+
+                <Route exact path='/checkout' render={()=> {
+                    return(
+                        <Aux>
+                            <div style={{textAlign:"center", marginTop:'100px'}}>
+                            <p>Coming soon...</p>
+                            </div>
+                        </Aux>  
+                    )
+                }}/>
+
             </Aux>
+            
         )
     }
 }

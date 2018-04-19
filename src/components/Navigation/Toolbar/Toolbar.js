@@ -8,7 +8,11 @@ import DrawerToggler from '../SideDrawer/DrawerToggle/DrawerToggle';
 
 const toolbar = (props) => (
     <header className={classes.Toolbar}>
-        <DrawerToggler clicked={props.showDrawer}>MENU</DrawerToggler>
+        <DrawerToggler clicked={props.showDrawer}>
+            <div></div>
+            <div></div>
+            <div></div>
+        </DrawerToggler>
         <div className={[classes.Logo, classes.DesktopOnly].join(' ')}>
             <img src={LogoPath} alt="Burger" />
         </div>

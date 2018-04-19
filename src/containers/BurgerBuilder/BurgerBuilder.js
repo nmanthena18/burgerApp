@@ -5,6 +5,9 @@ import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
+import axios from '../../Axios';
+import Spinner from '../../components/UI/Spinner/Spinner';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 const INGREDIENTS_PRICE = {
     salad:0.5,
@@ -16,15 +19,12 @@ const INGREDIENTS_PRICE = {
 class BurgerBuilder extends Component {
     
     state = {
-        ingredients: {
-            salad:0,
-            bacon:0,
-            cheese:0,
-            meat:0,
-        },
+        ingredients: null,
         totalPrice:4,
         perchasable:false,
         perchasing:false,
+        loading:false,
+        error:false
     }
 
     addIngredientHandler = (type) => {
@@ -84,32 +84,77 @@ class BurgerBuilder extends Component {
     }
 
     perchaseContinueHandler = () =>{
-        alert('hey')
+        this.setState({
+            loading:true,
+            perchasing:false
+        })
+        let orders = {
+            ingredients:this.state.ingredients,
+            totalPrice:this.state.totalPrice,
+            user:{
+                name:"Naresh",
+                emain:"nmanthena18@gmail.com",
+                address:"hyd",
+                pin:"500072"
+            }
+        }
+        axios.post('orders.json', orders).then(
+            response => {
+                this.setState({loading:false,  perchasing:false});
+            }
+        ).catch(
+            err => {
+                this.setState({loading:false,  perchasing:false});
+            }
+        )
     }
 
+
     render(){
+        let orderSummary = null;
+        let burger = this.state.error ? <p>Unable to fetch the data</p> :<Spinner />;
+        if(this.state.ingredients){
+            burger = (
+                <Aux>
+                    <Burger ingredients={this.state.ingredients} />
+                    <BuildControls
+                        ingredientsAdded={this.addIngredientHandler} 
+                        deleteIngredients={this.removeIngredientHandler}
+                        price={this.state.totalPrice} isEnable={this.state.perchasable}
+                        ingredients={this.state.ingredients} 
+                        orderNow={this.perchaseHandler}/>
+                </Aux>
+            )
+            orderSummary =  <OrderSummary ingredients={this.state.ingredients} modalClosed={this.perchaseHandlerCancel}
+             perchaseContinueHandler={this.perchaseContinueHandler}
+            totalPrice={this.state.totalPrice}
+        />
+                
+        }
+        
+        if(this.state.loading){
+            orderSummary = <Spinner />
+        }
         return (
             <Aux>
-                <Burger ingredients={this.state.ingredients} />
-                <BuildControls
-                    ingredientsAdded={this.addIngredientHandler} 
-                    deleteIngredients={this.removeIngredientHandler}
-                    price={this.state.totalPrice} isEnable={this.state.perchasable}
-                    ingredients={this.state.ingredients} 
-                    orderNow={this.perchaseHandler}/>
+                {burger}
                 <Modal show={this.state.perchasing} modalClosed={this.perchaseHandlerCancel}>
-                    <OrderSummary ingredients={this.state.ingredients} modalClosed={this.perchaseHandlerCancel}
-                    perchaseContinueHandler={this.perchaseContinueHandler}
-                    totalPrice={this.state.totalPrice}
-                    />
+                   {orderSummary}
                 </Modal>
             </Aux>
         )
     }
 
     componentDidMount() {
-       this.init();        
+        axios.get('/ingredients.json').then(res =>{
+            this.setState({
+                ingredients : res.data               
+            });
+            this.init(); 
+        }).catch( err =>{
+            this.setState({ error:true})
+        })         
     }
 }
 
-export default BurgerBuilder;
+export default withErrorHandler(BurgerBuilder, axios);

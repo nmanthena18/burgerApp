@@ -6,19 +6,25 @@
     cursor: pointer;
     font: inherit;
     padding: 10px;
-    margin: 10px;
+    margin-right: 10px;
     font-weight: bold;
+}
+.Button[disabled]{
+    background: #ccc;
+    border:#999 solid 1px;
 }
 
 .Button:first-of-type {
-    margin-left: 0;
-    padding-left: 0;
+    /*margin-left: 0;
+    padding-left: 0;*/
 }
 
 .Success {
-    color: #5C9210;
+    background: #5C9210;
+    color:White;
 }
 
 .Danger {
-    color: #944317;
+    background: #944317;
+    color:White;
 }

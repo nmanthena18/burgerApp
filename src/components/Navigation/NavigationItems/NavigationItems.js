@@ -16,6 +16,10 @@ const Navigation = [
     {
         name:"Checkout",
         link:"/checkout"
+    },
+    {
+        name:"Orders",
+        link:"/orders"
     }
 ]
 const navigationItems = (props) => {

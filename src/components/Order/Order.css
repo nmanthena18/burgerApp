@@ -5,3 +5,12 @@
     padding:15px;
     box-sizing: border-box;
 }
+.Item{
+    display:inline-block;
+    border-radius: 20px;
+    padding:5px 10px;
+    border:solid #ccc 1px;
+    margin: 2px;
+    text-transform: capitalize;
+    font-size: 12px;
+}

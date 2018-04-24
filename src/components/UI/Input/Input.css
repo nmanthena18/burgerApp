@@ -1,0 +1,26 @@
+input, select{
+    padding:10px;
+    border:solid 1px #ccc;
+    width:100%;
+    box-sizing: border-box;
+}
+
+label{
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.InputElement{
+    outline: none;
+    background: #fff;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+.InputElement:focus{
+    outline:skyblue solid 1px;
+    background-color:#eee;
+}

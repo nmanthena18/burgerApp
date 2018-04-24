@@ -9,11 +9,11 @@ class Orders extends Component {
         loading:true
     }
     componentDidMount(){
-      let data=[];
+      let order=[];
       Axios.get('orders.json').then(res => {
             for(let key in res.data){
-                data.push({...res.data[key]});
-                this.setState({data, loading:false});
+                order.push({...res.data[key], id:key});
+                this.setState({order, loading:false});
             }
         }).catch(err =>{
             this.setState({loading:false});
@@ -23,8 +23,8 @@ class Orders extends Component {
         return(
             <div>
                 {
-                  this.state.data ? this.state.data.map( (item,i) =>{            
-                    return <Order data={item} key={'order-'+i}/>
+                  this.state.order ? this.state.order.map( (item,i) =>{     
+                    return <Order data={item} key={item.id}/>
                 }) : <Spinner />
                  }
             </div>

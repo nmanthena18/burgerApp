@@ -5,6 +5,7 @@ input, select{
     box-sizing: border-box;
 }
 
+
 label{
     display: block;
     margin-bottom: 5px;
@@ -23,4 +24,9 @@ label{
 .InputElement:focus{
     outline:skyblue solid 1px;
     background-color:#eee;
+}
+
+.inValid{
+    background-color:wheat;
+    color:red;
 }

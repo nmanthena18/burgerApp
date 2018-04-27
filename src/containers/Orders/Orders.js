@@ -12,7 +12,7 @@ class Orders extends Component {
       let order=[];
       Axios.get('orders.json').then(res => {
             for(let key in res.data){
-                order.push({...res.data[key], id:key});
+                order.unshift({...res.data[key], id:key});
                 this.setState({order, loading:false});
             }
         }).catch(err =>{
